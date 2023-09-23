@@ -79,7 +79,7 @@ const Recommendations:React.FC = () => {
                 const isJoined = !!communityStateValue.mySnippets.find(
                     (snippet) => snippet.communityId === item.id);
                     return(
-                       // <Link key={item.id} href={`/i/${item.id}`}>
+                       <Link key={item.id} href={`/i/${item.id}`}>
                             <Flex
                             position="relative"
                             align="center"
@@ -127,7 +127,7 @@ const Recommendations:React.FC = () => {
                                             </Button>
                                     </Box>
                             </Flex>
-                        //</Link>
+                        </Link>
                     )
             })}
             <Box p="10px 20px">
