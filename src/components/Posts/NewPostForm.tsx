@@ -36,10 +36,6 @@ const formTabs: TabItem[] = [
         title: "Link",
         icon: BsLink45Deg,
     },
-    {
-        title: "Poll",
-        icon: BiPoll,
-    },
 ];
 
 export type TabItem = {

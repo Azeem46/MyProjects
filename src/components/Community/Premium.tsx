@@ -6,7 +6,7 @@ import { BsRobot } from "react-icons/bs";
 const Premium: React.FC = () => {
   const handleTryNowClick = () => {
     // Redirect to the specified URL
-    window.location.href = "https://thread-app-nu.vercel.app/";
+    window.location.href = "https://ideashare2-px6dg7cyn-azeem46s-projects.vercel.app/";
   };
 
   return (
