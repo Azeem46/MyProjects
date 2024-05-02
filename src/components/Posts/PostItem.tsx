@@ -157,7 +157,7 @@ const PostItem:React.FC<PostItemProps> = ({
                             overflowY="auto"
                             whiteSpace="normal"
                         >
-                            {/* <Text fontSize="10pt" dangerouslySetInnerHTML={{ __html: post.body }} /> */}
+                            <Text fontSize="10pt" dangerouslySetInnerHTML={{ __html: post.body }} />
                         </Stack>
 
                         {post.imageURL && (

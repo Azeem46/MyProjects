@@ -1,24 +1,10 @@
 import { Button, Flex, Input, Stack } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic'; // Import dynamic from Next.js
+
+// Dynamic import for Quill.js to ensure it's only loaded on the client-side
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-
-// Import Quill
-import Quill from 'quill';
-
-// Set default Quill modules
-const defaultModules = {
-  toolbar: [
-    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-    [{size: []}],
-    ['link',],
-    ['clean']
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  }
-};
 
 type TextInputsProps = {
     textInputs: {
@@ -39,6 +25,25 @@ const TextInputs: React.FC<TextInputsProps> = ({
     loading,
 }) => {
     const [body, setBody] = useState(textInputs.body);
+    const defaultModules = {
+  toolbar: [
+    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+    [{size: []}],
+    ['link',],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  }
+};
+
+    // Ensure Quill.js is loaded on the client-side
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            // Initialize Quill.js here
+        }
+    }, []);
 
     const handleBodyChange = (value: string) => {
         setBody(value);
@@ -62,7 +67,9 @@ const TextInputs: React.FC<TextInputsProps> = ({
                 }}
             />
             
-                 <ReactQuill
+            {/* Render ReactQuill component only on the client-side */}
+            {typeof window !== 'undefined' && (
+                <ReactQuill
                     value={body}
                     onChange={handleBodyChange}
                     modules={defaultModules} // Pass default modules here
@@ -73,20 +80,21 @@ const TextInputs: React.FC<TextInputsProps> = ({
                         height: '100px'
                     }}
                 />
-            
-               <div>
+            )}
+
+            <div>
                 <Flex justify="flex-end">
-                <Button
-                    height="25px"
-                    padding="10px 30px"
-                    disabled={!textInputs.title}
-                    isLoading={loading}
-                    onClick={handleCreatePost}
-                >
-                    Post
-                </Button>
-            </Flex>
-               </div>
+                    <Button
+                        height="25px"
+                        padding="10px 30px"
+                        disabled={!textInputs.title}
+                        isLoading={loading}
+                        onClick={handleCreatePost}
+                    >
+                        Post
+                    </Button>
+                </Flex>
+            </div>
         </Stack>
     );
 };
