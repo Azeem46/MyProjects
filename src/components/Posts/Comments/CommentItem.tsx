@@ -7,6 +7,7 @@ import {
     IoArrowUpCircleOutline,
 } from "react-icons/io5";
 import moment from 'moment';
+import { BsRobot } from 'react-icons/bs';
 
 export type Comment = {
         id: string;
@@ -37,7 +38,7 @@ const CommentItem:React.FC<CommentItemProps> = ({
     return (
         <Flex>
             <Box mr={2}>
-                <Icon as ={FaReddit} fontSize={30} color="gray.300" />
+                <Icon as ={BsRobot} fontSize={30} color="gray.300" />
             </Box>
             <Stack spacing={1}>
                 <Stack direction="row" align="center" fontSize="8pt">
