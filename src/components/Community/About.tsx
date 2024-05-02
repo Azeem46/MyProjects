@@ -2,10 +2,9 @@ import { Community, communityState } from '@/src/atoms/communitiesAtom';
 import { Box, Button, Divider, Flex, Icon, Stack, Text, Image, Spinner } from '@chakra-ui/react';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { RiCakeLine} from "react-icons/ri";
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore, storage } from '@/src/firebase/clientApp';
 import useSelectFile from '@/src/hooks/useSelectFile';
@@ -13,6 +12,9 @@ import { FaReddit } from 'react-icons/fa';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useSetRecoilState } from 'recoil';
+import useSelectFiles from '@/src/hooks/useSelectFiles';
+import { BsRobot } from 'react-icons/bs';
+
 
 type AboutProps = {
     communityData: Community;
@@ -21,9 +23,27 @@ type AboutProps = {
 const About:React.FC<AboutProps> = ({ communityData }) => {
         const [user] = useAuthState(auth);
         const selectedFileRef = useRef<HTMLInputElement>(null);
+        const selectedFileRefs = useRef<HTMLInputElement>(null);
         const{ selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
+        const{ selectedFiles, 
+        setSelectedFiles, 
+        onSelectFiles} = useSelectFiles();
         const [uploadingImage, setUploadingImage] = useState(false);
+        const [uploadingImages, setUploadingImages] = useState(false);
         const setCommunityStateValue = useSetRecoilState(communityState);
+        const [showSaveChanges, setShowSaveChanges] = useState(true);
+        const [saveChanges, setSaveChanges] = useState(true);
+       
+         useEffect(() => {
+        // Show "Save Changes" text only when there are selected files
+        setShowSaveChanges(!!selectedFiles);
+    }, [selectedFiles]);
+
+     useEffect(() => {
+        // Show "Save Changes" text only when there are selected files
+        setSaveChanges(!!selectedFile);
+    }, [selectedFile]);
+
 
         const onUpdateImage = async () => {
             if (!selectedFile) return;
@@ -42,12 +62,37 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                         imageURL: downloadURL
                     } as Community,
                 }))
-
+                setSaveChanges(false);
             } catch (error) {
                 console.log("onUpdateImage error", error);
             }
             setUploadingImage(false);
         };
+
+
+       const onUpdateImages = async () => {
+        if (!selectedFiles) return;
+        setUploadingImages(true);
+        try {
+            const imageRef = ref(storage, `communities/${communityData.id}/background_image`);
+            await uploadString(imageRef, selectedFiles, "data_url");
+            const downloadURL = await getDownloadURL(imageRef);
+            await updateDoc(doc(firestore, "communities", communityData.id), {
+                backgroundImageURL: downloadURL,
+            });
+            setCommunityStateValue((prev) => ({
+                ...prev,
+                currentCommunity: {
+                    ...prev.currentCommunity,
+                    backgroundImageURL: downloadURL
+                } as Community,
+            }));
+            setShowSaveChanges(false); // Hide "Save Changes" text after successful update
+        } catch (error) {
+            console.log("onUpdateImage error", error);
+        }
+        setUploadingImages(false);
+    };
 
     return (
         <Box position="sticky" top="14px">
@@ -119,7 +164,7 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                                          />
                                     ) : (
                                         <Icon
-                                        as={FaReddit}
+                                        as={BsRobot}
                                         fontSize={40}
                                         color="brand.100"
                                         mr={2}
@@ -130,7 +175,11 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                                 (uploadingImage ? (
                                      <Spinner /> 
                                     ) : (
-                                         <Text cursor="pointer" onClick={onUpdateImage}>Save Changes</Text>
+                                         <Text 
+                                         cursor="pointer" onClick={onUpdateImage}
+                                         // Show "Save Changes" text only when state is true
+                                            display={saveChanges ? "block" : "none"} 
+                                         >Save Changes</Text>
                                          ))}
                                          <input 
                                          id="file-upload"
@@ -143,6 +192,60 @@ const About:React.FC<AboutProps> = ({ communityData }) => {
                         </Stack>
                         </>
                     )}
+                      {user?.uid === communityData.creatorId && (
+                <>
+                    <Divider />
+                    <Stack spacing={1} fontSize="10pt">
+                        <Flex align="center" justify="space-between">
+                            <Text 
+                                color="blue.500"
+                                cursor="pointer"
+                                _hover={{ textDecoration: "underline" }}
+                                onClick={() => selectedFileRefs.current?.click()}
+                            >
+                                Change Background Image
+                            </Text>
+                            {communityData.backgroundImageURL || selectedFiles ? (
+                                <Image 
+                                    src={selectedFiles || communityData.backgroundImageURL}
+                                    borderRadius ="full"
+                                    boxSize="40px"
+                                    alt="Community Image"
+                                />
+                            ) : (
+                                <Icon
+                                    as={BsRobot}
+                                    fontSize={40}
+                                    color="brand.100"
+                                    mr={2}
+                                />
+                            )}
+                        </Flex>
+                        {selectedFiles && 
+                            (uploadingImages ? (
+                                <Spinner /> 
+                            ) : (
+                                <Text 
+                                    cursor="pointer" 
+                                    onClick={onUpdateImages} 
+                                    // Show "Save Changes" text only when showSaveChanges state is true
+                                    display={showSaveChanges ? "block" : "none"} 
+                                >
+                                    Save Changes
+                                </Text>
+                            ))
+                        }
+                        <input 
+                            id="file-upload"
+                            type="file"
+                            accept="image/x-png,image/gif,image/jpeg"
+                            hidden
+                            ref={selectedFileRefs}
+                            onChange={onSelectFiles}
+                        />
+                    </Stack>
+                </>
+            )}
                 </Stack>
             </Flex>
         </Box>

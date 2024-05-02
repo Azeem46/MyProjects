@@ -6,6 +6,7 @@ import { communityState } from '@/src/atoms/communitiesAtom';
 import { useRecoilValue } from 'recoil';
 import { FaReddit } from 'react-icons/fa';
 import MenuListItem from './MenuListItem';
+import { BsRobot } from 'react-icons/bs';
 type CommunitiesProps = {
     
 };
@@ -23,7 +24,7 @@ const Communities:React.FC<CommunitiesProps> = () => {
         {mySnippets.filter(snippet => snippet.isModerator).map((snippet) => (
             <MenuListItem 
             key={snippet.communityId} 
-            icon={FaReddit} 
+            icon={BsRobot} 
             displayText={`i/${snippet.communityId}`}
             link={`/i/${snippet.communityId}`}
             iconColor="brand.100"
@@ -47,7 +48,7 @@ const Communities:React.FC<CommunitiesProps> = () => {
         {mySnippets.map((snippet) => (
             <MenuListItem 
             key={snippet.communityId} 
-            icon={FaReddit} 
+            icon={BsRobot} 
             displayText={`i/${snippet.communityId}`}
             link={`/i/${snippet.communityId}`}
             iconColor="blue.500"

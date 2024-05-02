@@ -3,6 +3,7 @@ import { Box, Button, Flex, Icon, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FaReddit } from "react-icons/fa";
 import useCommunityData from '@/src/hooks/useCommunityData';
+import { BsRobot } from 'react-icons/bs';
 type HeaderProps = {
     communityData: Community;
 };
@@ -14,8 +15,21 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
         (item) => item.communityId == communityData.id
     );
     return (
-        <Flex direction="column" width="100%" height="146px">
-            <Box height="50%" bg="blue.400" />
+        <Flex direction="column" width="100%" height="420px">
+        <Box height="300%" bg="blue.400">
+    {communityStateValue.currentCommunity?.backgroundImageURL ? (
+        <Image
+            src={communityStateValue.currentCommunity.backgroundImageURL}
+            alt="image"
+            position="relative"
+            height="350"
+            width="1600px"
+            objectFit="cover" // Preserve aspect ratio and cover the entire box
+        />
+    ) : (
+        <Icon as={BsRobot} />
+    )}
+</Box>
             <Flex justify="center" bg="white" flexGrow={1}>
                 <Flex width="95%" maxWidth="860px" >
                     {communityStateValue.currentCommunity?.imageURL ? (
@@ -31,7 +45,7 @@ const Header:React.FC<HeaderProps> = ({ communityData }) => {
                         />
                     ): (
                         <Icon 
-                    as={FaReddit}
+                    as={BsRobot}
                      fontSize={64}
                       position="relative"
                        top={-1}

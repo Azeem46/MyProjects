@@ -11,10 +11,7 @@ const defaultModules = {
   toolbar: [
     [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
     [{size: []}],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, 
-     {'indent': '-1'}, {'indent': '+1'}],
-    ['link', 'image', 'video'],
+    ['link',],
     ['clean']
   ],
   clipboard: {
@@ -64,7 +61,7 @@ const TextInputs: React.FC<TextInputsProps> = ({
                     borderColor: 'black',
                 }}
             />
-            <div style={{ overflow: 'auto', maxHeight: 300 , maxWidth:'700px' }}>
+            
                  <ReactQuill
                     value={body}
                     onChange={handleBodyChange}
@@ -73,15 +70,15 @@ const TextInputs: React.FC<TextInputsProps> = ({
                     placeholder="Text (optional)"
                     style={{
                         fontSize: '10pt',
-                        height: '200px'
+                        height: '100px'
                     }}
                 />
-            </div>
+            
                <div>
                 <Flex justify="flex-end">
                 <Button
-                    height="34px"
-                    padding="0px 30px"
+                    height="25px"
+                    padding="10px 30px"
                     disabled={!textInputs.title}
                     isLoading={loading}
                     onClick={handleCreatePost}

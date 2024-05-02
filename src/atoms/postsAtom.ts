@@ -11,6 +11,7 @@ import { atom } from "recoil";
     body: string;
     numberOfComments: number;
     voteStatus: number;
+    videoURL?: string;
     imageURL?: string;
     communityImageURL?: string;
     createdAt: Timestamp;

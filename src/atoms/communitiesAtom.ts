@@ -8,12 +8,14 @@ export interface Community {
     privacyType: "public" | "restrictied" | "private";
     createdAt?: Timestamp;
     imageURL?: string;
+    backgroundImageURL?: string;
   }
 
   export interface CommunitySnippet {
     communityId: string;
     isModerator?: boolean;
     imageURL?: string;
+    backgroundImageURL?: string;
   }
 
   interface CommunityState {

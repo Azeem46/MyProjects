@@ -1,11 +1,12 @@
 import { Post } from '@/src/atoms/postsAtom';
-import { Flex, Icon, Stack, Text, Image, Skeleton, Spinner, Alert, AlertIcon, Link} from '@chakra-ui/react';
+import { Flex, Icon, Stack, Text, Image, Skeleton, Spinner, Alert, AlertIcon, Link, AspectRatio } from '@chakra-ui/react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
+import { BsRobot } from "react-icons/bs";
 import {
   IoArrowDownCircleOutline,
   IoArrowDownCircleSharp,
@@ -43,7 +44,6 @@ const PostItem:React.FC<PostItemProps> = ({
     const [loadingDelete, setLoadingDelete] = useState(false);
     const router = useRouter();
     const singlePostPage = !onSelectPost;
-
 
     const [error, setError] = useState(false);
     const handleDelete = async ( event: React.MouseEvent<HTMLDivElement, MouseEvent>,) => {
@@ -131,7 +131,7 @@ const PostItem:React.FC<PostItemProps> = ({
                                 mr={2}
                                 />
                             ) : (
-                                <Icon as={FaReddit} fontSize="18pt" mr={1} color="blue.500" />
+                                <Icon as={BsRobot} fontSize="18pt" mr={1} color="blue.500" />
                             )}
                             <Link href={`i/${post.communityId}`}>
                                 <Text 
@@ -151,7 +151,15 @@ const PostItem:React.FC<PostItemProps> = ({
                     <Text fontSize="12pt" fontWeight={600}>
                         {post.title}
                         </Text>
-                        <Text fontSize="10pt">{post.body}</Text>
+                        <Stack 
+                            maxHeight="200px" 
+                            maxWidth="500px"
+                            overflowY="auto"
+                            whiteSpace="normal"
+                        >
+                            <Text fontSize="10pt" dangerouslySetInnerHTML={{ __html: post.body }} />
+                        </Stack>
+
                         {post.imageURL && (
                             <Flex justify="center" align="center" p={2}>
                                 {loadingImage && (
@@ -164,6 +172,15 @@ const PostItem:React.FC<PostItemProps> = ({
                                   display={loadingImage ? "none" : "unset"}
                                  onLoad={() => setLoadingImage(false)} />
                             </Flex>
+                        )}
+                        {post.videoURL && (
+                                 <AspectRatio maxHeight={300} maxWidth={400} ratio={16/9}>
+                                    <iframe
+                                    title='Video'
+                                    src={post.videoURL}
+                                    allowFullScreen
+                                />
+                            </AspectRatio>
                         )}
                 </Stack>
                 <Flex ml={1} mb={0.5} color="gray.500">
@@ -222,3 +239,4 @@ const PostItem:React.FC<PostItemProps> = ({
     )
 };
 export default PostItem;
+

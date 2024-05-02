@@ -7,6 +7,7 @@ import { FaReddit } from 'react-icons/fa';
 import { authModalState } from '../atoms/authModalAtom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/clientApp';
+import { BsRobot } from 'react-icons/bs';
 
 
 const useDirectory = () => {
@@ -50,7 +51,7 @@ const useDirectory = () => {
                     displayText: `i/${currentCommunity.id}`, 
                     link: `/i/${currentCommunity.id}`,
                     imageURL: currentCommunity.imageURL,
-                    icon: FaReddit,
+                    icon: BsRobot,
                     iconColor: "blue.500"
                 }
             }))

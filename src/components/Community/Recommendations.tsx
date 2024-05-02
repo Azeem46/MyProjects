@@ -4,6 +4,7 @@ import useCommunityData from '@/src/hooks/useCommunityData';
 import { Flex, Link, Skeleton, SkeletonCircle, Stack, Text, Image, Icon, Box, Button } from '@chakra-ui/react';
 import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { BsRobot } from 'react-icons/bs';
 import { FaReddit } from 'react-icons/fa';
 
 
@@ -17,7 +18,7 @@ const Recommendations:React.FC = () => {
         try {
             const communityQuery = query(collection(firestore, "communities"),
             orderBy("numberOfMembers", "desc"),
-            limit(5)
+            limit(7)
             );
             const communityDocs = await getDocs(communityQuery);
             const communities = communityDocs.docs.map((doc) => ({ 
@@ -97,7 +98,7 @@ const Recommendations:React.FC = () => {
                                                 <Image src={item.imageURL} borderRadius="full" boxSize="28px" mr={2} />
                                             ): (
                                                 <Icon 
-                                                as={FaReddit} 
+                                                as={BsRobot} 
                                                 fontSize={30} 
                                                 color="brand.100" 
                                                 mr={2} 

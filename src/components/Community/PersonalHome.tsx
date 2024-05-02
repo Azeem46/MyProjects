@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/src/firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/src/atoms/authModalAtom";
+import { BsRobot } from "react-icons/bs";
 // import { handleCreateCommunity } from "../Modal/CreateCommunnity/CreateCommunityModal";
 // handleCreateCommunity();
 
@@ -48,12 +49,12 @@ const PersonalHome: React.FC = () => {
       ></Flex>
       <Flex direction="column" p="12px">
         <Flex align="center" mb={2}>
-          <Icon as={FaReddit} fontSize={50} color="brand.100" mr={2} />
+          <Icon as={BsRobot} fontSize={50} color="brand.100" mr={2} />
           <Text fontWeight={600}>Home</Text>
         </Flex>
         <Stack spacing={3}>
           <Text fontSize="9pt">
-            Your personal Reddit frontpage, built for you.
+            Your personal IdeaShare frontpage, built for you.
           </Text>
            
             <Button height="30px" onClick={toggleMenuOpen}>Create Post</Button>

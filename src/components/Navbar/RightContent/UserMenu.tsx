@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Button, Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Button, Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text, Image } from '@chakra-ui/react';
 import { User, signOut } from 'firebase/auth';
 import React from 'react';
 import { CgProfile } from "react-icons/cg";
@@ -36,7 +36,11 @@ const UserMenu:React.FC<UserMenuProps> = ({user}) => {
     {user ? 
   (
         <>
-    <Icon fontSize={24} mr={1} color="gray.400" as={CgProfile}/> {/*use your logo here*/}
+    {user && user.photoURL ? (
+        <Image src={user.photoURL} alt="User Profile" height={10} mr={1} borderRadius={50} />
+      ) : (
+        <Icon fontSize={24} mr={1} color="gray.400" as={CgProfile} />
+      )}
     <Flex
     direction="column"
     display={{base : "none", lg: "flex"}}
