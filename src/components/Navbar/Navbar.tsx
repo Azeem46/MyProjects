@@ -25,8 +25,8 @@ const Navbar:React.FC = () => {
             <Image src="/images/robot.png" height="30px" />
             <Image 
              display={{base: 'none', md: "unset"}}
-            src="/images/redditText.svg" 
-            height="46px"  
+            src="/images/11.png" 
+            height="16px"  
             />
            </Flex>
            {user && <Directory />}
