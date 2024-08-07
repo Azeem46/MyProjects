@@ -131,7 +131,7 @@ const SignUp:React.FC = () => {
        
         <Button width="100%" height="36px" mt={2} mb={2} type="submit" isLoading={loading}>Sign Up</Button>
         <Flex fontSize="9pt" justifyContent="center">
-        <Text mr={1}>Already a ideasharer?</Text>
+        <Text mr={1}>Already a Reddit User?</Text>
         <Text color="blue.500" fontWeight={700} cursor="pointer" 
         onClick={() =>
           setAuthModalState((prev) => ({

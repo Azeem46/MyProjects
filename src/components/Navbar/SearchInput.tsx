@@ -14,7 +14,7 @@ const SearchInput:React.FC<SearchInputProps> = ({user}) => {
     <InputLeftElement pointerEvents='none'>
       {<SearchIcon color='gray.400' mb={1} />}
     </InputLeftElement>
-    <Input name="search" placeholder='Search IdeaShare' fontSize='10pt' _placeholder={{color: "gray.500"}} 
+    <Input name="search" placeholder='Search Reddit' fontSize='10pt' _placeholder={{color: "gray.500"}} 
     _hover={{
         bg: "white",
         border: "1px solid",

@@ -22,12 +22,7 @@ const Navbar:React.FC = () => {
            cursor="pointer"
            onClick={() => onSelectMenuItem(defaultMenuItem) }
            >
-            <Image src="/images/robot.png" height="30px" />
-            <Image 
-             display={{base: 'none', md: "unset"}}
-            src="/images/11.png" 
-            height="16px"  
-            />
+            <Image src="/images/redditlogo.png" height="30px" />
            </Flex>
            {user && <Directory />}
            <SearchInput user={user}/>
